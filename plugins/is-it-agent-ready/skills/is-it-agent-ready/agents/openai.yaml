@@ -1,7 +1,0 @@
-interface:
-  display_name: "Is It Agent Ready"
-  short_description: "Audit public sites for agent readiness"
-  default_prompt: "Use $is-it-agent-ready to scan my public website and explain the evidence."
-
-policy:
-  allow_implicit_invocation: true

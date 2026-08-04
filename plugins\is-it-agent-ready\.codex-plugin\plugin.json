@@ -1,6 +1,6 @@
 {
   "name": "is-it-agent-ready",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Safely audit public websites with Cloudflare's Agent Readiness Scanner.",
   "author": {
     "name": "Unofficial community integration"
@@ -26,7 +26,7 @@
   "interface": {
     "displayName": "Is It Agent Ready",
     "shortDescription": "Audit public sites for agent readiness.",
-    "longDescription": "Scan one authorized public website through a safety-enforcing gateway, preserve Cloudflare's evidence, and guide only truthful applicable fixes.",
+    "longDescription": "Scan one authorized public website through a safety-enforcing gateway, optionally save a complete offline report with a lightweight viewer, and guide only truthful applicable fixes.",
     "developerName": "Unofficial community integration",
     "category": "Developer Tools",
     "capabilities": [
@@ -38,6 +38,8 @@
     "termsOfServiceURL": "https://www.cloudflare.com/website-terms/",
     "defaultPrompt": [
       "Scan my public website for agent readiness.",
+      "Scan my public website and save the full report.",
+      "Open a saved agent-readiness report in the lightweight viewer.",
       "Explain which readiness failures matter for this site.",
       "Re-test these named readiness checks."
     ],

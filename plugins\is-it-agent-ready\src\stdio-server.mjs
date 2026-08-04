@@ -35,7 +35,7 @@ export async function dispatchMcpMessage(message, gateway = new AgentReadinessGa
           version: PACKAGE_VERSION,
         },
         instructions:
-          "Use scan_site only for a user-authorized public website. The gateway rejects local, private, internal, and credential-bearing targets before contacting Cloudflare's scanner.",
+          "Use scan_site only for a user-authorized public website. Use scan_site_and_save only when the user explicitly asks to retain the result. The gateway rejects local, private, internal, and credential-bearing targets before contacting Cloudflare's scanner.",
       });
     }
     case "ping":

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Is It Agent Ready"
+  short_description: "Scan and save public agent-readiness evidence"
+  default_prompt: "Use $is-it-agent-ready to scan my public website, save the report, and explain the evidence."
+
+policy:
+  allow_implicit_invocation: true

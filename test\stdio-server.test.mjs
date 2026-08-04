@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const serverPath = fileURLToPath(new URL("../plugins/is-it-agent-ready/scripts/mcp-proxy.mjs", import.meta.url));
 
-test("stdio MCP handshake and tools/list expose scan_site offline", async (t) => {
+test("stdio MCP handshake and tools/list expose scan and save tools offline", async (t) => {
   const child = spawn(process.execPath, [serverPath], { stdio: ["pipe", "pipe", "pipe"] });
   t.after(() => child.kill());
 
@@ -40,7 +40,8 @@ test("stdio MCP handshake and tools/list expose scan_site offline", async (t) =>
 
   child.stdin.write(`${JSON.stringify({ jsonrpc: "2.0", method: "notifications/initialized", params: {} })}\n`);
   const listed = await request({ jsonrpc: "2.0", id: 2, method: "tools/list", params: {} });
-  assert.deepEqual(listed.result.tools.map((tool) => tool.name), ["scan_site"]);
+  assert.deepEqual(listed.result.tools.map((tool) => tool.name), ["scan_site", "scan_site_and_save"]);
   assert.deepEqual(listed.result.tools[0].inputSchema.required, ["url"]);
+  assert.deepEqual(listed.result.tools[1].inputSchema.required, ["url"]);
   child.stdin.end();
 });
