@@ -21,6 +21,10 @@ async function json(relative) {
   return JSON.parse(await text(relative));
 }
 
+async function binary(relative) {
+  return readFile(path.join(root, relative));
+}
+
 function parseFrontmatter(markdown) {
   const match = markdown.match(/^---\n([\s\S]*?)\n---\n/);
   if (!match) fail("SKILL.md must start with YAML frontmatter.");
@@ -131,6 +135,13 @@ if (!/not authored[^\n]+endorsed by Cloudflare/i.test(readme)) fail("README lack
 if (!readme.includes("scan_site_and_save")) fail("README does not document opt-in scan saving.");
 if (!readme.includes("report.html") || !readme.includes("applicable-check pass rate")) {
   fail("README does not document the lightweight viewer and transparent 100-point score.");
+}
+if (!readme.includes("docs/images/example-report.jpg")) {
+  fail("README does not include the example report screenshot.");
+}
+const screenshot = await binary("docs/images/example-report.jpg");
+if (screenshot.length < 4 || screenshot[0] !== 0xff || screenshot[1] !== 0xd8 || screenshot.at(-2) !== 0xff || screenshot.at(-1) !== 0xd9) {
+  fail("docs/images/example-report.jpg is not a valid JPEG asset.");
 }
 
 const workflow = await text(".github/workflows/ci.yml");

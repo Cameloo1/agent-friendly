@@ -96,6 +96,10 @@ Set `IS_IT_AGENT_READY_SCAN_DIR` to an absolute path before starting the harness
 
 The viewer displays a transparent 100-point applicable-check pass rate: passing applicable checks divided by all applicable checks, rounded to the nearest whole number. Excluded checks do not count. This viewer score is not Cloudflare's 1–5 maturity level and is never calculated for a partial or internally inconsistent result. The HTML uses only embedded CSS, makes no network requests, runs no JavaScript, and keeps color limited to pass, fail, warning, and excluded status text.
 
+![Example saved report showing a 43 out of 100 applicable-check pass rate, compact check rows, status colors, and failure evidence](docs/images/example-report.jpg)
+
+_Representative saved-report output from the observed `diamondedgetrading.com` content-profile scan on 2026-08-04. The site and upstream scanner can change, so future results may differ._
+
 ## Safety boundaries
 
 Scanning sends the approved target URL to Cloudflare and causes Cloudflare to request that public site. The local gateway validates before any scanner request:
