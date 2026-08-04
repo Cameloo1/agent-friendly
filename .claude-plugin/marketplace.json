@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "is-it-agent-ready",
+  "description": "Unofficial public-site agent-readiness auditing through Cloudflare's scanner.",
+  "owner": {
+    "name": "Unofficial community integration"
+  },
+  "plugins": [
+    {
+      "name": "is-it-agent-ready",
+      "source": "./plugins/is-it-agent-ready",
+      "description": "Safely audit public websites with Cloudflare's Agent Readiness Scanner.",
+      "version": "1.2.0",
+      "category": "Developer Tools"
+    }
+  ]
+}

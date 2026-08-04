@@ -4,7 +4,7 @@ Is It Agent Ready is a cross-harness skill for developers and site owners who wa
 
 > **Unofficial integration:** this package is not authored, sponsored, or endorsed by Cloudflare. Cloudflare controls `isitagentready.com`, its scanner behavior, recommendations, policies, and availability.
 
-The package exposes one MCP tool, `scan_site`. It selects a content, API/application, full, or named-check scan; preserves the scanner's evidence; and refuses local, private, internal, metadata, or credential-bearing targets before the remote call.
+The package exposes `scan_site` for non-persistent audits and `scan_site_and_save` for explicitly retained reports. Both select a content, API/application, full, or named-check scan; preserve the scanner's evidence; and refuse local, private, internal, metadata, or credential-bearing targets before the remote call.
 
 ## Requirements
 
@@ -76,6 +76,30 @@ Observed scanner output on 2026-08-04 (excerpt; the upstream result can change a
 
 Public report route: [isitagentready.com/example.com](https://isitagentready.com/example.com)
 
+## Saving scans
+
+Ask the agent to save or retain the scan to use `scan_site_and_save`. Ordinary `scan_site` calls never create local files.
+
+Every successful save is committed atomically as one directory containing:
+
+- `scan.json`: the complete returned MCP result plus the validated request, scan ID, and save timestamp.
+- `report.md`: the readable text report with the same scan ID, target, timestamp, and scan scope.
+- `report.html`: a self-contained, dependency-free viewer with the score, categories, status, and failure evidence in the compact report layout.
+
+The tool returns both absolute paths. Default storage locations are:
+
+- Windows: `%LOCALAPPDATA%\is-it-agent-ready\scans\<scan-id>`
+- macOS: `~/Library/Application Support/is-it-agent-ready/scans/<scan-id>`
+- Linux: `${XDG_STATE_HOME:-~/.local/state}/is-it-agent-ready/scans/<scan-id>`
+
+Set `IS_IT_AGENT_READY_SCAN_DIR` to an absolute path before starting the harness to use another controlled location. Saving never accepts an arbitrary output path from a tool call, so scanned content cannot redirect writes elsewhere.
+
+The viewer displays a transparent 100-point applicable-check pass rate: passing applicable checks divided by all applicable checks, rounded to the nearest whole number. Excluded checks do not count. This viewer score is not Cloudflare's 1–5 maturity level and is never calculated for a partial or internally inconsistent result. The HTML uses only embedded CSS, makes no network requests, runs no JavaScript, and keeps color limited to pass, fail, warning, and excluded status text.
+
+![Example saved report showing a 43 out of 100 applicable-check pass rate, compact check rows, status colors, and failure evidence](docs/images/example-report.jpg)
+
+_Representative saved-report output from the observed `diamondedgetrading.com` content-profile scan on 2026-08-04. The site and upstream scanner can change, so future results may differ._
+
 ## Safety boundaries
 
 Scanning sends the approved target URL to Cloudflare and causes Cloudflare to request that public site. The local gateway validates before any scanner request:
@@ -87,7 +111,7 @@ Scanning sends the approved target URL to Cloudflare and causes Cloudflare to re
 - Invalid profile and `enabledChecks` values are rejected locally.
 - Timeout, rate-limit, malformed, partial, and upstream-error results never receive a fabricated score.
 
-A scan is read-only with respect to your repository. DNS, credentials, authentication, payments, deployment, production changes, and externally visible remediation require separate approval.
+An ordinary scan is read-only with respect to your repository and local storage. An explicitly saved scan writes only to the application-data scan store described above. DNS, credentials, authentication, payments, deployment, production changes, and externally visible remediation require separate approval.
 
 ## Limitations
 
@@ -96,6 +120,7 @@ A scan is read-only with respect to your repository. DNS, credentials, authentic
 - The upstream scanner currently negotiates MCP `2025-06-18` without a protocol session. The package also documents the released `2025-11-25` transport and the incompatible `2026-07-28` draft; it does not pretend the live service has adopted the draft.
 - DNS can change between local validation and Cloudflare's request. The gateway blocks every address it observes, but no client-side check can eliminate that external time-of-check/time-of-use gap.
 - Service availability, rate limits, scoring, check definitions, and public report content remain upstream-controlled.
+- Saved reports contain public scanner evidence and are generated artifacts. Do not commit or publish them unless intentionally promoted.
 - OpenCode's V2 plugin/config APIs are still evolving. The default install targets stable `mcp.<name>`; the explicit `--v2` install targets preview `skills` and `mcp.servers`.
 
 ## Development and verification

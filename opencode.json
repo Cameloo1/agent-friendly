@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "is-it-agent-ready": {
+      "type": "local",
+      "command": [
+        "node",
+        "./plugins/is-it-agent-ready/scripts/mcp-proxy.mjs"
+      ],
+      "cwd": ".",
+      "enabled": true
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "is-it-agent-ready",
+  "interface": {
+    "displayName": "Is It Agent Ready"
+  },
+  "plugins": [
+    {
+      "name": "is-it-agent-ready",
+      "source": {
+        "source": "local",
+        "path": "./plugins/is-it-agent-ready"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
