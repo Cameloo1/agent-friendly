@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "is-it-agent-ready": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/scripts/mcp-proxy.mjs"
+      ]
+    }
+  }
+}
